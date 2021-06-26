@@ -51,6 +51,7 @@ aside {
   width: 100%;
   max-width: 320px;
 }
+
 .main-content form {
   display: flex;
   flex-direction: column;
@@ -58,9 +59,19 @@ aside {
   width: 100%;
   max-width: 320px;
 }
+
+.main-content h2 {
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  color: #29292e;
+  margin-bottom: 24px;
+}
+
 #home-logo {
   align-self: center;
-  margin-bottom: 80px;
+  margin-bottom: 56px;
 }
 
 #google-button {
@@ -92,11 +103,15 @@ aside {
 }
 
 .main-content p {
-  display: flex;
-  align-items: center;
-  color: #a8a8b3;
+  font-size: 14px;
+  color: #737380;
   text-align: center;
+  margin-top: 16px;
   margin-bottom: 32px;
+}
+
+.main-content p a {
+  color: #e55ef9;
 }
 
 .main-content p:before {
