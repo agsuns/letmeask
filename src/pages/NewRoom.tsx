@@ -1,4 +1,5 @@
 import { Button } from '../components/Button';
+import { Link } from 'react-router-dom';
 import '../styles/global.css';
 import '../styles/new-room.css';
 import illustrationImg from '../assets/images/illustration.svg';
@@ -6,7 +7,7 @@ import logoImg from '../assets/images/logo.svg';
 
 export function NewRoom() {
     return (
-        <div className="container">
+        <div className="new-room-container">
             <aside>
                 <img src={illustrationImg} alt="ilustração que simboliza perguntas e respostas" />
                 <h2>Toda pergunta tem uma resposta.</h2>
@@ -15,8 +16,8 @@ export function NewRoom() {
 
             <main>
                 {/* só pra centralizar */}
-                <div className='main-content'>                    
-                    <img id="home-logo" src={logoImg} alt="letmeask" />
+                <div className='new-room-main-content'>                    
+                    <img id="new-room-home-logo" src={logoImg} alt="letmeask" />
                     <h2>Crie uma nova sala</h2>
                     
                     <form>
@@ -27,7 +28,9 @@ export function NewRoom() {
                         <Button type="submit">Criar sala</Button> 
                     </form>
 
-                    <p>Quer entrar em uma sala existente? <a href="">Clique aqui</a></p>
+                    <p>
+                        Quer entrar em uma sala existente? <Link to="/">Clique aqui</Link>
+                    </p>
                 </div>
             </main>
         </div>

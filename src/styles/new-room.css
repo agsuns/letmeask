@@ -1,10 +1,10 @@
-.container {
+.new-room-container {
   height: 100vh;
   display: flex;
   align-items: stretch;
 }
 
-.container aside {
+.new-room-container aside {
   flex: 4;
   display: flex;
   flex-direction: column;
@@ -12,11 +12,11 @@
   padding: 120px 80px;
 }
 
-.container aside img {
+.new-room-container aside img {
   max-width: 320px;
 }
 
-.container aside h2 {
+.new-room-container aside h2 {
   color: #fff;
   font-family: 'Poppins', sans-serif;
   font-size: 36px;
@@ -25,14 +25,14 @@
   margin-top: 16px;
 }
 
-.container aside p {
+.new-room-container aside p {
   font-size: 24px;
   line-height: 32px;
   margin-top: 16px;
   color: #f8f8f8;
 }
 
-.container main {
+.new-room-container main {
   flex: 6;
   padding: 0 32px;
   display: flex;
@@ -40,11 +40,11 @@
   justify-content: center;
 }
 
-aside {
-  padding-left: 84px;
+.new-room-container aside {
+  padding-left: 80px;
 }
 
-.main-content {
+.new-room-main-content {
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -52,7 +52,7 @@ aside {
   max-width: 320px;
 }
 
-.main-content form {
+.new-room-main-content form {
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -60,7 +60,7 @@ aside {
   max-width: 320px;
 }
 
-.main-content h2 {
+.new-room-main-content h2 {
   text-align: center;
   font-family: 'Poppins', sans-serif;
   font-size: 24px;
@@ -69,40 +69,12 @@ aside {
   margin-bottom: 24px;
 }
 
-#home-logo {
+#new-room-home-logo {
   align-self: center;
   margin-bottom: 56px;
 }
 
-#google-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #ea4335;
-  height: 50px;
-  /* outline: none; */
-  border-radius: 8px;
-  border: none;
-  color: #fff;
-  margin-bottom: 32px;
-  transition: filter 0.2s;
-}
-
-#google-button img {
-  align-self: center;
-  margin-right: 8px;
-}
-
-#google-button:not(:disabled):hover {
-  filter: brightness(0.9);
-}
-
-#google-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.main-content p {
+.new-room-main-content p {
   font-size: 14px;
   color: #737380;
   text-align: center;
@@ -110,27 +82,11 @@ aside {
   margin-bottom: 32px;
 }
 
-.main-content p a {
+.new-room-main-content p a {
   color: #e55ef9;
 }
 
-.main-content p:before {
-  content: '';
-  flex-grow: 1;
-  height: 1px;
-  background: #a8a8b3;
-  margin-right: 16px;
-}
-
-.main-content p:after {
-  content: '';
-  flex-grow: 1;
-  height: 1px;
-  background: #a8a8b3;
-  margin-left: 16px;
-}
-
-form input {
+.new-room-container form input {
   width: 100%;
   height: 50px;
   border-radius: 8px;
