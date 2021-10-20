@@ -60,7 +60,8 @@
   max-width: 320px;
 }
 
-.new-room-main-content h2 {
+.new-room-main-content h1,
+h2 {
   text-align: center;
   font-family: 'Poppins', sans-serif;
   font-size: 24px;
