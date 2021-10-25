@@ -8,6 +8,8 @@
   border-style: none;
   color: #fff;
   transition: filter 0.2s;
+  padding: 0 32px;
+  cursor: pointer;
 }
 
 .button:not(:disabled):hover {

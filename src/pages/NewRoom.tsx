@@ -1,14 +1,38 @@
+import React from 'react';
+import { FormEvent } from 'react';
 import { Button } from '../components/Button';
 import { Link } from 'react-router-dom';
-import '../styles/global.css';
-import '../styles/new-room.css';
+import '../styles/global.scss';
+import '../styles/new-room.scss';
 import illustrationImg from '../assets/images/illustration.svg';
 import logoImg from '../assets/images/logo.svg';
-import React from 'react';
 import { useAuth } from '../hooks/useAuth';
+import { database } from '../services/firebase';
+import { useHistory } from 'react-router';
 
 export function NewRoom() {
     const { user } = useAuth();
+    const [newRoom, setNewRoom] = React.useState('');
+    const history = useHistory();
+
+    const handleCreateRoom = async (event: FormEvent) => {
+        event.preventDefault();
+        console.log('new room', newRoom);
+
+        // se o input passado pelo usuario for vazio, ou só conter espaços, a sala não será criada
+        if(newRoom.trim() === '') return;
+
+        const roomRef = database.ref('rooms');
+        const firebaseRoom = await roomRef.push({
+            title: newRoom,
+            authorId: user?.id,             
+        })        
+
+        history.push(`${firebaseRoom.key}`);
+    }
+
+
+
     return (
         //  pode-se usar isso no lugar de uma div, porem nenhum elemento vai encapsular o q vem logo abaixo
         <React.Fragment>
@@ -25,10 +49,11 @@ export function NewRoom() {
                         <img id="new-room-home-logo" src={logoImg} alt="letmeask" />                        
                         <h2>Crie uma nova sala</h2>
                         
-                        <form>
+                        <form onSubmit={handleCreateRoom}>
                             <input 
                                 type="text" 
                                 placeholder='Nome da sala'
+                                onChange={(event) => setNewRoom(event.target.value)}
                             />
                             <Button type="submit">Criar sala</Button> 
                         </form>

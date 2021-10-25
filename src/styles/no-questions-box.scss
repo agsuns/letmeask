@@ -1,0 +1,27 @@
+.no-questions-container {
+  margin: 0 auto;
+  width: 285px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  img {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 16px;
+  }
+
+  p {
+    font-size: 18px;
+    font-weight: 600;
+    color: #29292e;
+    margin-bottom: 8px;
+  }
+
+  span {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500px;
+    color: #737380;
+  }
+}
