@@ -1,13 +1,13 @@
 import React from 'react';
 import { FormEvent } from 'react';
-import { Button } from '../components/Button';
+import { Button } from '../../components/Button/Index';
 import { Link } from 'react-router-dom';
-import '../styles/global.scss';
-import '../styles/new-room.scss';
-import illustrationImg from '../assets/images/illustration.svg';
-import logoImg from '../assets/images/logo.svg';
-import { useAuth } from '../hooks/useAuth';
-import { database } from '../services/firebase';
+import '../../styles/global.scss';
+import './styles.scss';
+import illustrationImg from '../../assets/images/illustration.svg';
+import logoImg from '../../assets/images/logo.svg';
+import { useAuth } from '../../hooks/useAuth';
+import { database } from '../../services/firebase';
 import { useHistory } from 'react-router';
 
 export function NewRoom() {
@@ -16,8 +16,7 @@ export function NewRoom() {
     const history = useHistory();
 
     const handleCreateRoom = async (event: FormEvent) => {
-        event.preventDefault();
-        console.log('new room', newRoom);
+        event.preventDefault();        
 
         // se o input passado pelo usuario for vazio, ou só conter espaços, a sala não será criada
         if(newRoom.trim() === '') return;

@@ -1,5 +1,5 @@
-import '../styles/room-code.scss'
-import copyImg from '../assets/images/copy.svg'
+import './styles.scss'
+import copyImg from '../../assets/images/copy.svg'
 
 interface RoomCodeProps {
   code: string,

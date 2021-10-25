@@ -1,13 +1,13 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { Button } from '../components/Button'
-import illustrationImg from '../assets/images/illustration.svg';
-import logoImg from '../assets/images/logo.svg';
-import googleIconImg from '../assets/images/google-icon.svg';
-import '../styles/global.scss';
-import '../styles/home.scss'
-import { useAuth } from '../hooks/useAuth';
-import { database } from '../services/firebase';
+import { Button } from '../../components/Button/Index';
+import illustrationImg from '../../assets/images/illustration.svg';
+import logoImg from '../../assets/images/logo.svg';
+import googleIconImg from '../../assets/images/google-icon.svg';
+import '../../styles/global.scss';
+import './styles.scss';
+import { useAuth } from '../../hooks/useAuth';
+import { database } from '../../services/firebase';
 
 export function Home() {
     const history = useHistory();

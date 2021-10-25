@@ -1,5 +1,5 @@
-import '../styles/no-questions-box.scss';
-import emptyQuestions from '../assets/images/empty-questions.svg';
+import './styles.scss';
+import emptyQuestions from '../../assets/images/empty-questions.svg';
 
 export default function NoQuestionsBox() {
   return (

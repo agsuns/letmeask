@@ -1,13 +1,13 @@
 import React from 'react';
 import { useParams } from 'react-router';
-import logo from '../assets/images/logo.svg';
-import '../styles/room.scss'
-import { Button } from '../components/Button';
-import NoQuestionsBox from '../components/NoQuestionsBox';
-import RoomCode from '../components/RoomCode';
-import QuestionBox from '../components/QuestionBox';
-import { useAuth } from '../hooks/useAuth';
-import { database } from '../services/firebase';
+import logo from '../../assets/images/logo.svg';
+import './styles.scss'
+import { Button } from '../../components/Button/Index';
+import NoQuestionsBox from '../../components/NoQuestionsBox/Index';
+import RoomCode from '../../components/RoomCode/Index';
+import QuestionBox from '../../components/QuestionBox/Index';
+import { useAuth } from '../../hooks/useAuth';
+import { database } from '../../services/firebase';
 
 interface RoomParams {
   id: string,

@@ -1,7 +1,7 @@
 import React from 'react';
-import '../styles/question-box.scss';
-import likeImg from '../assets/images/like.svg'
-import { Question } from '../pages/Room';
+import './styles.scss';
+import likeImg from '../../assets/images/like.svg'
+import { Question } from '../../pages/Room/Index';
 
 interface QuestionProps {
   question: Question
