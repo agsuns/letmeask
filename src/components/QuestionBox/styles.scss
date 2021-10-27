@@ -39,13 +39,25 @@
       }
     }
 
-    .likes {
+    .like-button {
       display: flex;
       justify-content: center;
       align-items: flex-end;
+      gap: 8px;
+      background-color: transparent;
+      border: 0;
+      transition: filter 0.2s;
 
-      p {
-        margin-right: 8px;
+      &.liked {
+        color: #835afd;
+
+        svg path {
+          stroke: #835afd;
+        }
+      }
+
+      &:hover {
+        filter: brightness(0.7);
       }
     }
   }

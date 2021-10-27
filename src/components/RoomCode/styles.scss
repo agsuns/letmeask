@@ -1,5 +1,7 @@
 .room-code {
+  flex-shrink: 0;
   height: 40px;
+  min-width: 250px;
   border-radius: 8px;
   overflow: hidden;
   background: #fff;
@@ -25,4 +27,9 @@
     font-size: 14px;
     font-weight: 500;
   }
+}
+
+.room-code:hover {
+  color: #6f4bd8;
+  border-color: #6f4bd8;
 }

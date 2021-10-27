@@ -5,23 +5,23 @@ import { Home } from './pages/Home/Index';
 import { NewRoom } from './pages/NewRoom/Index';
 import { Room } from './pages/Room/Index';
 import { AuthContext, AuthContextProvider } from './contexts/AuthContext';
-
-
+import { AdminRoom } from './pages/AdminRoom/Index';
 
 export function App() {
-  const {user, signInWithGoogle} = React.useContext(AuthContext)
+  const { user, signInWithGoogle } = React.useContext(AuthContext)
 
 
   return (
     <BrowserRouter>
       <AuthContextProvider>
         <Switch>
-          <Route path='/' exact component={ Home }/>
-          <Route path='/rooms/new' exact  component={ NewRoom }/>
-          <Route path='/rooms/:id' component={ Room }/>
+          <Route path='/' exact component={Home} />
+          <Route path='/rooms/new' exact component={NewRoom} />
+          <Route path='/rooms/:id' component={Room} />
+          <Route path="/admin/rooms/:id" component={AdminRoom}/>
         </Switch>
       </AuthContextProvider>
-      
+
     </BrowserRouter>
   );
 }

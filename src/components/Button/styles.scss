@@ -20,3 +20,21 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+.isOutlined {
+  margin-left: 8px;
+  flex-shrink: 0;
+  background-color: transparent;
+  height: 40px;
+  width: 140px;
+  border: 1px solid #835afd;
+  border-radius: 8px;
+  font-weight: 600;
+  color: #835afd;
+  font-size: 14px;
+}
+
+.isOutlined::hover {
+  border-color: #6f4bd8;
+  color: #6f4bd8;
+}
