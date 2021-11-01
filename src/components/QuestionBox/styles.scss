@@ -39,31 +39,79 @@
       }
     }
 
-    .like-button {
+    .functionalities {
       display: flex;
-      justify-content: center;
+      justify-content: flex-end;
       align-items: flex-end;
-      gap: 8px;
-      background-color: transparent;
-      border: 0;
-      transition: filter 0.2s;
+      gap: 1rem;
 
-      &.liked {
-        color: #835afd;
+      .func-button {
+        background-color: transparent;
+        border: none;
+      }
 
-        svg path {
+      .checkmark-button:hover svg {
+        path {
+          stroke: #835afd;
+        }
+
+        circle {
           stroke: #835afd;
         }
       }
 
-      &:hover {
-        filter: brightness(0.7);
+      .highlight-button:hover svg path {
+        stroke: #835afd;
+      }
+      .delete-button:hover svg path {
+        stroke: #d73754;
+      }
+
+      .like-button {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        gap: 8px;
+        background-color: transparent;
+        border: 0;
+        transition: filter 0.2s;
+
+        &.liked {
+          color: #835afd;
+
+          svg path {
+            stroke: #835afd;
+          }
+        }
+
+        &:hover {
+          filter: brightness(0.7);
+        }
       }
     }
   }
 }
 
-.highlight {
+.highlighted {
   background-color: #f4f0ff;
   outline: 1px solid #835afd;
+}
+
+.answered {
+  background-color: #dbdcdd;
+  outline: none;
+
+  img {
+    filter: grayscale(100%);
+  }
+
+  .checkmark-button svg {
+    path {
+      stroke: #835afd;
+    }
+
+    circle {
+      stroke: #835afd;
+    }
+  }
 }

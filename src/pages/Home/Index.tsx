@@ -9,10 +9,11 @@ import './styles.scss';
 import { useAuth } from '../../hooks/useAuth';
 import { database } from '../../services/firebase';
 
+
 export function Home() {
     const history = useHistory();
     const { user, signInWithGoogle } = useAuth();
-    const [roomCode, setRoomCode] = React.useState('');
+    const [roomCode, setRoomCode] = React.useState('');    
 
     const handleGoogleSignIn = async () => {
         if (!user) {
@@ -32,13 +33,17 @@ export function Home() {
         if (!roomRef.exists()) {
             alert("Room doesn't exist.");
             return;
+
+        } else if (roomRef.val()?.closedAt) {
+            alert(`Room was closed at: ${roomRef.val()?.closedAt}`);
+            return;
         }
 
         history.push(`rooms/${roomCode}`);
     }
-
+    
     return (
-        // também é possivel utilizar somente "<>" no lugar de <React.Fragment>
+        
         <>
             <div className="home-container">
                 <aside>

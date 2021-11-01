@@ -8,6 +8,8 @@ interface DeleteRoomProps extends DeleteModalProps{
   title: string,
   paragraph: string,  
   acceptButtonText: string,
+  onClose: () => void,
+  onDelete: () => void,
 }
 
 export default function DeleteModal(props : DeleteRoomProps) {  

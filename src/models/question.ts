@@ -4,9 +4,9 @@ interface QuestionCommon {
     author: {
         name: string,
         avatar: string,
-        isHighlighted: boolean,
-        isAnswered: boolean,
     },
+    isHighlighted: boolean,
+    isAnswered: boolean,
 }
 
 export interface FirebaseQuestion extends QuestionCommon {
