@@ -1,31 +1,21 @@
-import React from 'react';
-import garbageCan from '../../assets/images/garbageCan.svg';
 import './styles.scss'
-import { DeleteModalProps } from '../../models/deleteModals';
+import useConfirm from '../../hooks/useConfirm';
 
-interface DeleteRoomProps extends DeleteModalProps{
-  imgRef: string,
-  title: string,
-  paragraph: string,  
-  acceptButtonText: string,
-  onClose: () => void,
-  onDelete: () => void,
-}
+export default function DeleteModal() {  
+  const {title, prompt, iconRef, isOpen, cancel, proceed} = useConfirm();
 
-export default function DeleteModal(props : DeleteRoomProps) {  
-  
-  if(!props.show) return null;
+  if(!isOpen) return null;
 
   return (
-    <div className="modal-container" onClick={props.onClose}>
+    <div className="modal-container" onClick={cancel}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}> 
-          <img src={props.imgRef} alt="delete" />
-          <h2>{props.title}</h2>
-          <p>{props.paragraph}</p>
+          <img src={iconRef} alt="delete" />
+          <h2>{title}</h2>
+          <p>{prompt}</p>
 
           <div className="footer">            
-            <button className="cancel" onClick={props.onClose}>Cancelar</button>
-            <button className="accept" onClick={() => {props.onDelete(); props.onClose()}}>{props.acceptButtonText}</button>
+            <button className="cancel" onClick={cancel}>Cancelar</button>
+            <button className="accept" onClick={proceed}>Sim</button>
           </div>
       </div>  
     </div>

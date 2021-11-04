@@ -8,6 +8,7 @@ import '../../styles/global.scss';
 import './styles.scss';
 import { useAuth } from '../../hooks/useAuth';
 import { database } from '../../services/firebase';
+import { FirebaseRoom } from '../../models/room';
 
 
 export function Home() {
@@ -20,26 +21,31 @@ export function Home() {
             await signInWithGoogle();
         }
         
-        history.push('/rooms/new');
+        history.push('/rooms/new');                
     }
 
     const handleJoinRoom = async (event: React.FormEvent) => {
+        
+        
         event.preventDefault();
-
+        
         if(roomCode.trim() === '') return;
-
-        const roomRef = await database.ref(`rooms/${roomCode}`).get();
-
-        if (!roomRef.exists()) {
+        
+        const roomSnapshot = await database.ref(`rooms/${roomCode}`).get();        
+    
+        if (!roomSnapshot.exists()) {
             alert("Room doesn't exist.");
             return;
-
-        } else if (roomRef.val()?.closedAt) {
-            alert(`Room was closed at: ${roomRef.val()?.closedAt}`);
+        }
+    
+        const roomValue = roomSnapshot.val() as FirebaseRoom;
+        if (roomValue?.closedAt) {
+            alert(`Room was closed at: ${roomSnapshot.val()?.closedAt}`);
             return;
         }
-
-        history.push(`rooms/${roomCode}`);
+    
+        if (roomValue.authorId === user?.id) history.push(`admin/rooms/${roomCode}`);
+        else history.push(`rooms/${roomCode}`);
     }
     
     return (

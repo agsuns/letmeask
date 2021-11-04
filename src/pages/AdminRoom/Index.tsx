@@ -12,13 +12,16 @@ import useRoom from '../../hooks/useRoom';
 import DeleteModal from '../../components/DeleteModal/Index';
 import "../Room/styles.scss"
 import { FirebaseQuestion } from '../../models/question';
+import useConfirm from '../../hooks/useConfirm';
+import garbageCan from '../../assets/images/garbageCan.svg';
+import deleteIcon from '../../assets/images/deleteIcon.svg';
 
 interface RoomParams {
   id: string,
 }
 
 export function AdminRoom () {
-  const {user} = useAuth();
+  const {isConfirmed} = useConfirm();
   const history = useHistory();
 
   const roomParams = useParams<RoomParams>();   
@@ -27,23 +30,35 @@ export function AdminRoom () {
   const {questions, title} = useRoom({roomId});
 
   const handleDeleteQuestion = async (questionId: string) => {
-    if (window.confirm()) await database.ref(`rooms/${roomId}/questions/${questionId}`).remove();        
-  }
+    const result = await isConfirmed(
+      "Excluir",
+      "Você deseja excluir esta pergunta?",
+      garbageCan,
+    )
 
+    if (result) 
+      await database.ref(`rooms/${roomId}/questions/${questionId}`).remove();        
+  }
   const handleDeleteRoom = async () => {
-    if (window.confirm()) {
+    const result = await isConfirmed(
+      "Encerrar",
+      "Você deseja encerrar esta sala?",
+      deleteIcon,
+    );
+    if (result) {
       await database.ref(`rooms/${roomId}`).update({ 
         closedAt: new Date(),
       });    
 
       history.push('/');
-    }
+    }    
   }
 
   const handleHighlightQuestion = async (questionId: string) => {
     const questionRef = database.ref(`rooms/${roomId}/questions/${questionId}`);
     const questionSnapshot = await questionRef.get();
     const questionValue = questionSnapshot.val() as FirebaseQuestion;
+
 
     await questionRef.update({isHighlighted: !questionValue.isHighlighted});
   }
