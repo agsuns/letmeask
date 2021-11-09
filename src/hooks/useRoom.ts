@@ -15,6 +15,7 @@ export default function useRoom( {roomId}: useRoomProps ) {
   React.useEffect(() => {     
     
     const roomQuestionsRef = database.ref(`rooms/${roomId}`);
+    console.log(`room id: ${roomId}`);
 
     //if it exists
     if(roomQuestionsRef) {  
@@ -24,27 +25,33 @@ export default function useRoom( {roomId}: useRoomProps ) {
         
       } else {
         roomQuestionsRef.on('value', (dataSnapshot) => {        
-          const roomSnapshot = dataSnapshot.val();
-          const fetchedQuestions: { [key: string]: FirebaseQuestion }  = roomSnapshot.questions ?? {};
-                
-          const parsedQuestions = Object.entries(fetchedQuestions).map(([key, value]) => {                
-            return {
-              id: key,
-              content: value.content,
-              author: value.author,     
-              isHighlighted: value.isHighlighted,
-              isAnswered: value.isAnswered,
-              likesCount: Object.values(value?.likes ?? {}).length,
-              likeId: Object.entries(value?.likes ?? {}).find(([key, like]) => {
-              
-                return like?.userId === user?.id;
-              })?.[0],
-            }
-          });            
+
+          if (dataSnapshot.exists()) {
+            console.log("I'm here");
+            const roomSnapshot = dataSnapshot.val();
+            const fetchedQuestions: { [key: string]: FirebaseQuestion }  = roomSnapshot?.questions ?? {};
           
-          setQuestions(parsedQuestions);
-          setTitle(roomSnapshot.title);                
-      });
+          
+            const parsedQuestions = Object.entries(fetchedQuestions).map(([key, value]) => {                
+              return {
+                id: key,
+                content: value.content,
+                author: value.author,     
+                isHighlighted: value.isHighlighted,
+                isAnswered: value.isAnswered,
+                likesCount: Object.values(value?.likes ?? {}).length,
+                likeId: Object.entries(value?.likes ?? {}).find(([key, like]) => {
+                
+                  return like?.userId === user?.id;
+                })?.[0],
+              }
+            });            
+            
+            setQuestions(parsedQuestions);
+            setTitle(roomSnapshot.title);    
+          }  
+        }                                              
+      );
     }     
   }
     

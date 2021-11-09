@@ -15,7 +15,6 @@ import useConfirm from '../../hooks/useConfirm';
 import garbageCan from '../../assets/images/garbageCan.svg';
 import deleteIcon from '../../assets/images/deleteIcon.svg';
 import useTheme from '../../hooks/useTheme';
-import { Link } from 'react-router-dom';
 import React from 'react';
 
 interface RoomParams {
@@ -30,6 +29,8 @@ export function AdminRoom () {
   const roomId = roomParams.id;
   const {questions, title} = useRoom({roomId});
   const [svgCxValue, setSvgCxValue] = React.useState('30.5');  
+
+  console.log(`admin room: ${roomId}`);
 
   const handleDeleteQuestion = async (questionId: string) => {
     const result = await isConfirmed(
