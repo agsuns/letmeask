@@ -4,7 +4,7 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 24px;
-  background-color: #fefefe;
+  background-color: var(--secondary-color);
   margin-bottom: 8px;
   min-height: 152px;
   border-radius: 8px;
@@ -12,7 +12,7 @@
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
 
   .question-content {
-    color: #29292e;
+    color: var(--main-text-color);
   }
 
   .info {
@@ -45,6 +45,16 @@
       align-items: flex-end;
       gap: 1rem;
 
+      svg {
+        path {
+          stroke: var(--button-icon-color);
+        }
+
+        circle {
+          stroke: var(--button-icon-color);
+        }
+      }
+
       .func-button {
         background-color: transparent;
         border: none;
@@ -76,6 +86,10 @@
         border: 0;
         transition: filter 0.2s;
 
+        span {
+          color: var(--main-text-color);
+        }
+
         &.liked {
           color: #835afd;
 
@@ -90,28 +104,40 @@
       }
     }
   }
-}
 
-.highlighted {
-  background-color: #f4f0ff;
-  outline: 1px solid #835afd;
-}
+  &.highlighted {
+    background-color: var(--highlight-color);
+    outline: 1px solid #835afd;
 
-.answered {
-  background-color: #dbdcdd;
-  outline: none;
+    .highlight-button {
+      svg {
+        path {
+          stroke: #835afd;
+        }
 
-  img {
-    filter: grayscale(100%);
+        circle {
+          stroke: #835afd;
+        }
+      }
+    }
   }
 
-  .checkmark-button svg {
-    path {
-      stroke: #835afd;
+  &.answered {
+    background-color: var(--answered-background-color);
+    outline: none;
+
+    img {
+      filter: grayscale(100%);
     }
 
-    circle {
-      stroke: #835afd;
+    .checkmark-button svg {
+      path {
+        stroke: #835afd;
+      }
+
+      circle {
+        stroke: #835afd;
+      }
     }
   }
 }

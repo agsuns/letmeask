@@ -8,6 +8,8 @@
   border: 1px solid #855afd;
   cursor: pointer;
   display: flex;
+  background-color: transparent;
+  color: var(--main-text-color);
 
   div {
     background: #855afd;

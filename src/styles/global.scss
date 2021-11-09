@@ -20,3 +20,31 @@ p {
 aside {
   background-color: #835afd;
 }
+
+.dark {
+  --background-color: #111111;
+  --main-text-color: #fffff0;
+  --question-background-color: #29292e;
+  --secondary-color: #29292e;
+  --icon-color: #fffff0;
+  --answered-background-color: #737380;
+  --button-icon-color: #b8b8b8;
+  --highlight-color: rgba(111, 75, 216, 0.13);
+  --header-bottom-border: #29292e;
+  --modal-background: rgba(255, 255, 255, 0.3);
+  --logo-color: #fffff0;
+}
+
+.light {
+  --background-color: #f8f8f8;
+  --main-text-color: #29292e;
+  --question-background-color: #fefefe;
+  --secondary-color: #fff;
+  --icon-color: #737380;
+  --answered-background-color: #dbdcdd;
+  --button-icon-color: #737380;
+  --highlight-color: #f4f0ff;
+  --header-bottom-border: #e2e2e2;
+  --modal-background: rgba(0, 0, 0, 0.5);
+  --logo-color: #29292e;
+}

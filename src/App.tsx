@@ -6,6 +6,7 @@ import { NewRoom } from './pages/NewRoom/Index';
 import { Room } from './pages/Room/Index';
 import { AuthContext, AuthContextProvider } from './contexts/AuthContext';
 import  ConfirmContextProvider  from './contexts/ConfirmContext';
+import ThemeContextProvider from './contexts/ThemeContext';
 import { AdminRoom } from './pages/AdminRoom/Index';
 import DeleteModal from './components/DeleteModal/Index';
 
@@ -15,17 +16,19 @@ export function App() {
 
   return (
     <ConfirmContextProvider>
-      <AuthContextProvider>
-        <DeleteModal/>        
-        <BrowserRouter>      
-          <Switch>
-            <Route path='/' exact component={Home} />
-            <Route path='/rooms/new' exact component={NewRoom} />
-            <Route path='/rooms/:id' component={Room} />
-            <Route path="/admin/rooms/:id" component={AdminRoom}/>
-          </Switch>
-        </BrowserRouter>
-      </AuthContextProvider>
+      <ThemeContextProvider>
+        <AuthContextProvider>
+          <DeleteModal/>        
+          <BrowserRouter>      
+            <Switch>
+              <Route path='/' exact component={Home} />
+              <Route path='/rooms/new' exact component={NewRoom} />
+              <Route path='/rooms/:id' component={Room} />
+              <Route path="/admin/rooms/:id" component={AdminRoom}/>
+            </Switch>
+          </BrowserRouter>
+        </AuthContextProvider>
+      </ThemeContextProvider>
     </ConfirmContextProvider>
   );
 }

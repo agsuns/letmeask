@@ -6,14 +6,17 @@ import '../../styles/global.scss';
 import './styles.scss';
 import illustrationImg from '../../assets/images/illustration.svg';
 import logoImg from '../../assets/images/logo.svg';
+import whiteLogo from '../../assets/images/white-logo.svg';
 import { useAuth } from '../../hooks/useAuth';
 import { database } from '../../services/firebase';
 import { useHistory } from 'react-router';
+import useTheme from '../../hooks/useTheme';
 
 export function NewRoom() {
     const { user } = useAuth();
     const [newRoom, setNewRoom] = React.useState('');
     const history = useHistory();
+    const { theme } = useTheme();
 
     const handleCreateRoom = async (event: FormEvent) => {
         event.preventDefault();        
@@ -27,15 +30,13 @@ export function NewRoom() {
             authorId: user?.id,             
         })        
 
-        history.push(`${firebaseRoom.key}`);
+        history.push(`admin/room/${firebaseRoom.key}`);
     }
-
-
 
     return (
         //  pode-se usar isso no lugar de uma div, porem nenhum elemento vai encapsular o q vem logo abaixo
         <React.Fragment>
-            <div className="new-room-container">
+            <div className={`new-room-container ${theme}`} >
                 <aside>
                     <img src={illustrationImg} alt="ilustração que simboliza perguntas e respostas" />
                     <h2>Toda pergunta tem uma resposta.</h2>
@@ -44,8 +45,8 @@ export function NewRoom() {
 
                 <main>
                     {/* só pra centralizar */}
-                    <div className='new-room-main-content'>                    
-                        <img id="new-room-home-logo" src={logoImg} alt="letmeask" />                        
+                    <div className='content'>                    
+                        <img id="new-room-home-logo" src={theme === 'light' ? logoImg : whiteLogo} alt="letmeask" />                        
                         <h2>Crie uma nova sala</h2>
                         
                         <form onSubmit={handleCreateRoom}>

@@ -1,28 +1,48 @@
-#room-container {
+.room-container {
+  background-color: var(--background-color);
+  min-height: 100vh;
+
   header {
     padding: 24px;
-    border-bottom: 1px solid #e2e2e2;
-  }
+    border-bottom: 1px solid var(--header-bottom-border);
 
-  .content {
-    max-width: 1120px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    > img {
-      max-height: 45px;
-    }
-
-    .admin-button-container {
+    .content {
+      max-width: 1120px;
+      margin: 0 auto;
       display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      > img {
+        max-height: 45px;
+        cursor: pointer;
+      }
+
+      .button-container {
+        display: flex;
+
+        .toggle {
+          background-color: transparent;
+          border-style: none;
+          margin-left: 2rem;
+
+          svg {
+            height: 29.3px;
+            width: 55px;
+          }
+
+          circle {
+            transition: all ease-in 0.2s;
+          }
+        }
+      }
     }
   }
 
   main {
     max-width: 800px;
     margin: 0 auto;
+    padding-bottom: 20px;
 
     .room-title {
       margin: 32px 0 24px;
@@ -32,7 +52,7 @@
       h1 {
         font-family: 'Poppins', sans-serif;
         font-size: 24px;
-        color: #29292e;
+        color: var(--main-text-color);
       }
 
       span {
@@ -59,6 +79,8 @@
         resize: vertical;
         min-height: 130px;
         outline: none;
+        color: var(--main-text-color);
+        background-color: var(--secondary-color);
       }
 
       textarea:focus {
@@ -84,7 +106,7 @@
           }
 
           span {
-            color: #29292e;
+            color: var(--main-text-color);
             font-weight: 500;
             font-size: 14px;
           }

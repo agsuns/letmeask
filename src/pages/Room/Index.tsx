@@ -1,6 +1,7 @@
 import React from 'react';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import logo from '../../assets/images/logo.svg';
+import whiteLogo from '../../assets/images/white-logo.svg';
 import './styles.scss'
 import { Button } from '../../components/Button/Index';
 import NoQuestionsBox from '../../components/NoQuestionsBox/Index';
@@ -9,17 +10,20 @@ import QuestionBox from '../../components/QuestionBox/Index';
 import { useAuth } from '../../hooks/useAuth';
 import { database } from '../../services/firebase';
 import useRoom from '../../hooks/useRoom';
+import useTheme from '../../hooks/useTheme';
 
 interface RoomParams {
   id: string,
 }
 
 export function Room () {  
-
   const {user} = useAuth();
+  const history = useHistory();
+  const {theme, toggleTheme} = useTheme();
   const roomParams = useParams<RoomParams>();   
   const roomId = roomParams.id;
-
+  const [svgCxValue, setSvgCxValue] = React.useState('30.5');  
+  
   const {questions, title} = useRoom({roomId});
   const [newQuestion, setNewQuestion] = React.useState('');  
 
@@ -54,16 +58,29 @@ export function Room () {
       });
     }
   }  
+
+  React.useEffect(() => {
+    setSvgCxValue(theme === 'light' ? '30.5' : '75.5');
+  }, [theme]);
+
   return (
-    <div id="room-container">      
+    <div className={`room-container ${theme}`}>      
      <header>
        <div className="content">
-         <img src={logo} alt="letmeask logo" />
-         <RoomCode code={roomParams.id}/>
+         <img src={theme === 'light' ? logo : whiteLogo} alt="letmeask logo" onClick={() => history.push('/')}/>
+         <div className="button-container">
+           <RoomCode code={roomParams.id}/>
+           <button className="toggle" onClick={toggleTheme}>
+            <svg width="107" height="57" viewBox="0 0 107 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect id='rect' x="1" y="1" width="105" height="55" rx="27.5" stroke="#835afd" stroke-width="2" />
+                <circle id="circle" cx={svgCxValue} cy="28.5" r="22.5" fill="#835afd" />
+            </svg>
+           </button>
+         </div>
        </div>
      </header>
 
-     <main className="main-content">
+     <main>
        <div className="room-title">
          <h1>Sala {title}</h1>
          {questions && <span>{questions.length} pergunta(s)</span>}
