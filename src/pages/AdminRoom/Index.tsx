@@ -16,21 +16,22 @@ import garbageCan from '../../assets/images/garbageCan.svg';
 import deleteIcon from '../../assets/images/deleteIcon.svg';
 import useTheme from '../../hooks/useTheme';
 import React from 'react';
+import { useAuth } from '../../hooks/useAuth';
+import Loader from '../../components/Loader';
 
 interface RoomParams {
   id: string,
 }
 
 export function AdminRoom () {
-  const {isConfirmed} = useConfirm();
+  const { user } = useAuth();
+  const { isConfirmed } = useConfirm();
   const history = useHistory();
-  const {theme, toggleTheme} = useTheme();
-  const roomParams = useParams<RoomParams>();   
-  const roomId = roomParams.id;
-  const {questions, title} = useRoom({roomId});
+  const { theme, toggleTheme } = useTheme();
+  const { id: roomId } = useParams<RoomParams>();     
+  const { questions, title, authorId, useRoomLoading } = useRoom({roomId});
   const [svgCxValue, setSvgCxValue] = React.useState('30.5');  
-
-  console.log(`admin room: ${roomId}`);
+  
 
   const handleDeleteQuestion = async (questionId: string) => {
     const result = await isConfirmed(
@@ -71,20 +72,21 @@ export function AdminRoom () {
 
     await questionRef.update({isAnswered: !questionValue.isAnswered});
   }
-
   //makes the toggle button move everytime the theme variable changes
   React.useEffect(() => {  
     setSvgCxValue(theme === 'dark' ? '75.5' : '30.5');
     
   }, [theme]);
+
   
-  return (
+  if (useRoomLoading) return <Loader/>
+  else if (user?.id === authorId) return (
     <div className={`room-container ${theme}`}>
      <header>
        <div className="content">
          <img src={theme === 'light' ? logo : whiteLogo} alt="lwhite-logogo" onClick={() => history.push('/')}/>
          <div className="button-container">
-          <RoomCode code={roomParams.id}/>   
+          <RoomCode code={roomId}/>   
           <Button isOutlined onClick={handleDeleteRoom}>Encerrar</Button>
           <button className='toggle' onClick={toggleTheme}>
             <svg width="107" height="57" viewBox="0 0 107 57" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -133,4 +135,6 @@ export function AdminRoom () {
      </main>
    </div>
   );
+
+  else return <div>You don't have permission to access this room as admin.</div>
 }

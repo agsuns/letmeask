@@ -27,7 +27,6 @@ export function Room () {
   const {questions, title} = useRoom({roomId});
   const [newQuestion, setNewQuestion] = React.useState('');  
 
-
   const handleSendQuestion = async (event: React.FormEvent) => {
     event.preventDefault();
     
@@ -47,7 +46,6 @@ export function Room () {
     await database.ref(`rooms/${roomId}/questions/`).push(question);
     setNewQuestion('');
   }
-  
   const handleLikeQuestion = async (questionId: string, likeId: string | undefined) => {
     // if the user presses the like button again but likeId already exists, the likeId is removed from the database
     if (likeId) {
@@ -58,7 +56,6 @@ export function Room () {
       });
     }
   }  
-
   React.useEffect(() => {
     setSvgCxValue(theme === 'light' ? '30.5' : '75.5');
   }, [theme]);

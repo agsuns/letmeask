@@ -1,5 +1,6 @@
 import React from 'react'
 import { FirebaseQuestion, ClientQuestion } from '../models/question';
+import { FirebaseRoom } from '../models/room';
 import { database } from '../services/firebase';
 import { useAuth } from './useAuth';
 
@@ -10,51 +11,44 @@ interface useRoomProps {
 export default function useRoom( {roomId}: useRoomProps ) {
   const {user} = useAuth();
   const [questions, setQuestions] = React.useState<ClientQuestion []>([]);
+  const [authorId, setAuthorId] = React.useState('');
   const [title, setTitle] = React.useState('');
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {     
     
-    const roomQuestionsRef = database.ref(`rooms/${roomId}`);
-    console.log(`room id: ${roomId}`);
+    const roomQuestionsRef = database.ref(`rooms/${roomId}`);    
 
-    //if it exists
-    if(roomQuestionsRef) {  
+    roomQuestionsRef.on('value', (dataSnapshot) => {        
 
-      // if closedAt exists 
-      if (!database.ref(`rooms/${roomId}/closedAt`)) {
-        
-      } else {
-        roomQuestionsRef.on('value', (dataSnapshot) => {        
-
-          if (dataSnapshot.exists()) {
-            console.log("I'm here");
-            const roomSnapshot = dataSnapshot.val();
-            const fetchedQuestions: { [key: string]: FirebaseQuestion }  = roomSnapshot?.questions ?? {};
-          
-          
-            const parsedQuestions = Object.entries(fetchedQuestions).map(([key, value]) => {                
-              return {
-                id: key,
-                content: value.content,
-                author: value.author,     
-                isHighlighted: value.isHighlighted,
-                isAnswered: value.isAnswered,
-                likesCount: Object.values(value?.likes ?? {}).length,
-                likeId: Object.entries(value?.likes ?? {}).find(([key, like]) => {
-                
-                  return like?.userId === user?.id;
-                })?.[0],
-              }
-            });            
+      if (dataSnapshot.exists()) {        
+        const roomSnapshot: FirebaseRoom = dataSnapshot.val();
+        const fetchedQuestions: { [key: string]: FirebaseQuestion }  = roomSnapshot?.questions ?? {};
+        const parsedQuestions = Object.entries(fetchedQuestions).map(([key, value]) => {                
+          return {
+            id: key,
+            content: value.content,
+            author: value.author,     
+            isHighlighted: value.isHighlighted,
+            isAnswered: value.isAnswered,
+            likesCount: Object.values(value?.likes ?? {}).length,
+            likeId: Object.entries(value?.likes ?? {}).find(([key, like]) => {
             
-            setQuestions(parsedQuestions);
-            setTitle(roomSnapshot.title);    
-          }  
-        }                                              
-      );
-    }     
-  }
-    
+              return like?.userId === user?.id;
+            })?.[0],
+          }
+        });            
+
+        setAuthorId(roomSnapshot.authorId);
+        setQuestions(parsedQuestions);
+        setTitle(roomSnapshot.title);    
+      }        
+      setInterval(() => {
+        setLoading(false);
+      }, 5000);
+    }                                              
+  );
+      
     return () => {
       roomQuestionsRef.off('value');
     }
@@ -62,5 +56,5 @@ export default function useRoom( {roomId}: useRoomProps ) {
 }, [roomId, user?.id]);
   
   
-  return {questions, title}
+  return {questions, title, authorId, useRoomLoading: loading};
 }

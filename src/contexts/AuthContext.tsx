@@ -11,6 +11,7 @@ interface User {
 interface AuthContextInterface {
   user: User | undefined,
   signInWithGoogle: () => Promise<void>,
+  loading: boolean,
 }
 
 interface AuthContextProviderProps {
@@ -18,13 +19,19 @@ interface AuthContextProviderProps {
 }
 
 // diferença entre {} as AuthContextInterface e React.createContext<AuthContextInterface>() ou React.createContext<AuthContextInterface>({})
+
+
 export const AuthContext = React.createContext({} as AuthContextInterface);
 
 export const AuthContextProvider = ({children} : AuthContextProviderProps) => {
   const [user, setUser] = React.useState<User>();
+  const [loading, setLoading] = React.useState(true);
   
   React.useEffect(() => {
+    setLoading(prev => true);
+    
     const unsubscribe = auth.onAuthStateChanged((user) => {
+
       if (user) {
         const {displayName, photoURL, uid} = user;        
       
@@ -32,8 +39,10 @@ export const AuthContextProvider = ({children} : AuthContextProviderProps) => {
           throw new Error("Missing information from Google Account.");
         }
 
+        console.log('right before setUser, loading:', loading)
         setUser({name: displayName, id: uid, avatar: photoURL});
         console.log('signIn: ', user);
+        setLoading(prev => false);
       }
     })
 
@@ -44,6 +53,7 @@ export const AuthContextProvider = ({children} : AuthContextProviderProps) => {
 
 
   const signInWithGoogle = async () => {
+    setLoading(true);
     const provider = new firebase.auth.GoogleAuthProvider();
     const result = await auth.signInWithPopup(provider);
       
@@ -56,12 +66,12 @@ export const AuthContextProvider = ({children} : AuthContextProviderProps) => {
 
       setUser({name: displayName, id: uid, avatar: photoURL});
       console.log('signIn: ', user);
-    }
-      
+      setLoading(prev => false);
+    }      
     };
 
   return (
-    <AuthContext.Provider value={{user, signInWithGoogle}}>        
+    <AuthContext.Provider value={{user, signInWithGoogle, loading}}>        
       {children}
     </AuthContext.Provider>  
   );
