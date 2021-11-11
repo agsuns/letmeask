@@ -43,9 +43,7 @@ export default function useRoom( {roomId}: useRoomProps ) {
         setQuestions(parsedQuestions);
         setTitle(roomSnapshot.title);    
       }        
-      setInterval(() => {
-        setLoading(false);
-      }, 5000);
+      setLoading(false);
     }                                              
   );
       
@@ -54,7 +52,6 @@ export default function useRoom( {roomId}: useRoomProps ) {
     }
 
 }, [roomId, user?.id]);
-  
-  
+    
   return {questions, title, authorId, useRoomLoading: loading};
 }

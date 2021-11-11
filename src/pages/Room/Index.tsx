@@ -11,6 +11,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { database } from '../../services/firebase';
 import useRoom from '../../hooks/useRoom';
 import useTheme from '../../hooks/useTheme';
+import Loader from '../../components/Loader';
 
 interface RoomParams {
   id: string,
@@ -24,7 +25,7 @@ export function Room () {
   const roomId = roomParams.id;
   const [svgCxValue, setSvgCxValue] = React.useState('30.5');  
   
-  const {questions, title} = useRoom({roomId});
+  const {questions, title, useRoomLoading} = useRoom({roomId});
   const [newQuestion, setNewQuestion] = React.useState('');  
 
   const handleSendQuestion = async (event: React.FormEvent) => {
@@ -60,6 +61,8 @@ export function Room () {
     setSvgCxValue(theme === 'light' ? '30.5' : '75.5');
   }, [theme]);
 
+  if (useRoomLoading) return <Loader/>
+  
   return (
     <div className={`room-container ${theme}`}>      
      <header>
@@ -69,7 +72,7 @@ export function Room () {
            <RoomCode code={roomParams.id}/>
            <button className="toggle" onClick={toggleTheme}>
             <svg width="107" height="57" viewBox="0 0 107 57" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect id='rect' x="1" y="1" width="105" height="55" rx="27.5" stroke="#835afd" stroke-width="2" />
+                <rect id='rect' x="1" y="1" width="105" height="55" rx="27.5" stroke="#835afd" strokeWidth="2" />
                 <circle id="circle" cx={svgCxValue} cy="28.5" r="22.5" fill="#835afd" />
             </svg>
            </button>

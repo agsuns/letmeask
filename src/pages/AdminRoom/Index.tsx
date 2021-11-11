@@ -90,7 +90,7 @@ export function AdminRoom () {
           <Button isOutlined onClick={handleDeleteRoom}>Encerrar</Button>
           <button className='toggle' onClick={toggleTheme}>
             <svg width="107" height="57" viewBox="0 0 107 57" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect id='rect' x="1" y="1" width="105" height="55" rx="27.5" stroke="#835afd" stroke-width="2" />
+              <rect id='rect' x="1" y="1" width="105" height="55" rx="27.5" stroke="#835afd" strokeWidth="2" />
               <circle id="circle" cx={svgCxValue} cy="28.5" r="22.5" fill="#835afd" />
             </svg>
           </button>        

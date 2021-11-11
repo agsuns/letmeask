@@ -33,8 +33,7 @@ export function NewRoom() {
         history.push(`/admin/rooms/${firebaseRoom.key}`);
     }
 
-    return (
-        //  pode-se usar isso no lugar de uma div, porem nenhum elemento vai encapsular o q vem logo abaixo
+    return (        
         <React.Fragment>
             <div className={`new-room-container ${theme}`} >
                 <aside>
