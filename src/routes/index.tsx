@@ -10,7 +10,7 @@ import Loader from '../components/Loader';
 
 export default function Routes() {
 
-  const {user, loading} = useAuth();
+  const {user} = useAuth();
 
   type RouteType = {
     path: string;
@@ -27,21 +27,15 @@ export default function Routes() {
   };
 
   return (
-    <>
-      {loading ? <Loader/> : (
-        <BrowserRouter>                
-        <Switch>
-          
+    <> 
+      <BrowserRouter>                
+        <Switch>          
           <Route path='/' exact component={Home} />
           <Route path='/rooms/new' exact component={NewRoom} />
           <Route path='/rooms/:id' component={Room} />
-          {/* <Route path='/admin/rooms/:id' exact component={AdminRoom}/> */}
           <ProtectedRoute path="/admin/rooms/:id" component={AdminRoom}/>
-            
-          
         </Switch>
-      </BrowserRouter>
-      )}
+    </BrowserRouter>      
     </>
   )
 }

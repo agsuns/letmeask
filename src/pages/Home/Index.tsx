@@ -13,59 +13,65 @@ import { database } from '../../services/firebase';
 import { FirebaseRoom } from '../../models/room';
 import useTheme from '../../hooks/useTheme';
 import NotificationModal from '../../components/NotificationModal';
-import Loader from '../../components/Loader';
-
 
 export function Home() {
     const [closedAtModal, setClosedAtModal] = React.useState(false);
     const [closedAtValue, setClosedAtValue] = React.useState<Date>();
     const [noRoomModal, setNoRoomModal] = React.useState(false);
+    const [wrongInputModal, setWrongInputModal] = React.useState(false);
 
     const { theme } = useTheme();
     const history = useHistory();
     const { user, signInWithGoogle } = useAuth();
-    const [roomCode, setRoomCode] = React.useState('');    
+    const [roomCode, setRoomCode] = React.useState('');
 
     const handleGoogleSignIn = async () => {
         if (!user) {
             await signInWithGoogle();
         }
-        
-        history.push('/rooms/new');                
+
+        history.push('/rooms/new');
     }
 
     const handleJoinRoom = async (event: React.FormEvent) => {
-            
+
         event.preventDefault();
-        
+
         if(roomCode.trim() === '') return;
-        
-        const roomSnapshot = await database.ref(`rooms/${roomCode}`).get();        
-    
-        if (!roomSnapshot.exists()) {
-            setNoRoomModal(true);            
+        if(roomCode.match(/[\/#$\[\]\.]/)) {
+            setWrongInputModal(true);
             return;
         }
-    
+
+        const roomSnapshot = await database.ref(`rooms/${roomCode}`).get();
+
+        if (!roomSnapshot.exists()) {
+            setNoRoomModal(true);
+            return;
+        }
+
         const roomValue = roomSnapshot.val() as FirebaseRoom;
-        if (roomValue?.closedAt) {            
+        if (roomValue?.closedAt) {
             setClosedAtValue(new Date(roomValue?.closedAt));
             setClosedAtModal(true);
             return;
         }
-    
+
         if (roomValue.authorId === user?.id) history.push(`admin/rooms/${roomCode}`);
-        else history.push(`rooms/${roomCode}`);
+        else {
+            console.log("I'm here");
+            history.push(`rooms/${roomCode}`);
+        }
     }
-        
-    return ( 
+
+    return (
         <>
             <NotificationModal
                 isOpen={closedAtModal}
                 setIsOpen={setClosedAtModal}
                 iconRef={deleteIcon}
                 title='Sala encerrada'
-                text={`Sala encerrada em ${closedAtValue?.getDate()}/${(closedAtValue?.getMonth() ?? 0) + 1}/${closedAtValue?.getFullYear()}`}                
+                text={`Sala encerrada em ${closedAtValue?.getDate()}/${(closedAtValue?.getMonth() ?? 0) + 1}/${closedAtValue?.getFullYear()}`}
             />
 
             <NotificationModal
@@ -75,7 +81,15 @@ export function Home() {
                 title="Esta sala não existe"
                 text=''
             />
-            
+
+            <NotificationModal
+                isOpen={wrongInputModal}
+                setIsOpen={setWrongInputModal}
+                iconRef={deleteIcon}
+                title="Sala inválida"
+                text="Insira somente caracteres válidos"
+            />
+
             <div className={`home-container ${theme}`}>
                 <aside>
                     <img src={illustrationImg} alt="ilustração que simboliza perguntas e respostas" />
@@ -85,7 +99,7 @@ export function Home() {
 
                 <main>
                     {/* só pra centralizar */}
-                    <div className='main-content'>                    
+                    <div className='main-content'>
                         <img id="home-logo" src={theme === 'light' ? logoImg : whiteLogo} alt="letmeask" />
                         <button id="google-button" onClick={ handleGoogleSignIn }>
                             <img src={googleIconImg} alt="icone google"/>
@@ -93,18 +107,18 @@ export function Home() {
                         </button>
                         <p>ou entre em uma sala</p>
                         <form onSubmit={handleJoinRoom}>
-                            <input 
-                                type="text" 
+                            <input
+                                type="text"
                                 placeholder='Digite o código da sala'
-                                onChange={event => setRoomCode(event.target.value)} 
-                                value={roomCode}                           
+                                onChange={event => setRoomCode(event.target.value)}
+                                value={roomCode}
                             />
-                            
-                            <Button type="submit">Entrar na sala</Button> 
+
+                            <Button type="submit">Entrar na sala</Button>
                         </form>
                     </div>
                 </main>
-            </div>         
+            </div>
         </>
     );
 }

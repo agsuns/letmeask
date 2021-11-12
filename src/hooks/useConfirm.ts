@@ -44,5 +44,33 @@ export default function useConfirm() {
       });      
   }
 
-  return {...confirm, isConfirmed};
+  const onlyConfirm = async (iconRef: string, title: string, text: string) => {
+    const promise = new Promise((resolve, reject) => {
+      setConfirm({
+        iconRef,
+        isOpen: true,
+        title,
+        prompt: text,
+        proceed: resolve,
+        cancel: undefined,
+      })
+    });
+
+    // await promise;
+
+    return promise
+    .then(() => {
+      setConfirm({
+        title: '',
+        prompt: '',
+        iconRef: '',
+        cancel: undefined,
+        proceed: undefined,          
+        isOpen: false,
+      });
+      return true;
+    })
+  }
+
+  return {...confirm, isConfirmed, onlyConfirm};
 }

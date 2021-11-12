@@ -1,5 +1,4 @@
 import React from 'react'
-import deleteIcon from '../../assets/images/deleteIcon.svg';
 import useTheme from '../../hooks/useTheme';
 import './styles.scss';
 
@@ -9,12 +8,15 @@ type ClosedAtProps = {
   iconRef: string,
   title: string,
   text: string,
+  proceed?: (arg: string) => void
 }
 
-export default function NotificationModal({isOpen, setIsOpen, iconRef, title, text}: ClosedAtProps) {  
+export default function NotificationModal({isOpen, setIsOpen, iconRef, title, text, proceed}: ClosedAtProps) {  
   const { theme } = useTheme();
   
   const handleClick = () => {
+    console.log('cliquei no botaozinho');
+    if (proceed) proceed("");
     setIsOpen(false);
   }
 

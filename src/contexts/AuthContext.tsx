@@ -18,9 +18,6 @@ interface AuthContextProviderProps {
   children: ReactNode,
 }
 
-// diferença entre {} as AuthContextInterface e React.createContext<AuthContextInterface>() ou React.createContext<AuthContextInterface>({})
-
-
 export const AuthContext = React.createContext({} as AuthContextInterface);
 
 export const AuthContextProvider = ({children} : AuthContextProviderProps) => {
@@ -42,8 +39,8 @@ export const AuthContextProvider = ({children} : AuthContextProviderProps) => {
         console.log('right before setUser, loading:', loading)
         setUser({name: displayName, id: uid, avatar: photoURL});
         console.log('signIn: ', user);
-        setLoading(prev => false);
       }
+      setLoading(prev => false);
     })
 
     return () => {

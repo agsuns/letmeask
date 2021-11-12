@@ -20,6 +20,11 @@ interface ContextProviderProps {
 export const ConfirmContext = React.createContext({} as ContextProps);
 
 function ConfirmContextProvider({children} : ContextProviderProps) {
+  const [confirmOnly, setConfirmOnly] = React.useState({
+    isOpen: false,
+    proceed: undefined,
+  });
+  
   const [confirm, setConfirm] = React.useState({
     prompt: '',
     iconRef: '',
