@@ -15,12 +15,18 @@ import Loader from '../../components/Loader';
 import Notification from '../../components/NotificationModal';
 import deleteIcon from '../../assets/images/deleteIcon.svg';
 import { Link } from 'react-router-dom';
+import MobileHeader from '../../components/MobileHeader';
 
 interface RoomParams {
   id: string,
 }
 
 export function Room () {  
+  window.addEventListener('resize', () => {
+    setWindowWidth(window.innerWidth);
+  });
+
+  const [windowWidth, setWindowWidth] = React.useState(window.innerWidth);
   const {user} = useAuth();
   const history = useHistory();
   const {theme, toggleTheme} = useTheme();
@@ -33,6 +39,10 @@ export function Room () {
   const [signInModal, setSignInModal] = React.useState(false);  
   const [proceed, setProceed] = React.useState<{proceed: (arg: string) => void}>({proceed: (arg: string) => {}});
 
+
+  React.useEffect(() => {
+    console.log(windowWidth);
+  }, [windowWidth]);
 
   const handleSendQuestion = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -53,14 +63,11 @@ export function Room () {
     await database.ref(`rooms/${roomId}/questions/`).push(question);
     setNewQuestion('');
   }
-
   const handleLikeQuestion = async (questionId: string, likeId: string | undefined) => {
     // if the user presses the like button again but likeId already exists, the likeId is removed from the database
     if (!user) {            
         const promise = new Promise((resolve, reject) => {
-          setSignInModal(true);                    
-
-          
+          setSignInModal(true);                             
           setProceed({proceed: resolve});
         });
   
@@ -100,21 +107,29 @@ export function Room () {
         proceed={proceed.proceed}
       />
       <div className={`room-container ${theme}`}>      
-      <header>
-        <div className="content">
-          <img src={theme === 'light' ? logo : whiteLogo} alt="letmeask logo" onClick={() => history.push('/')}/>
-          <div className="button-container">
-            <RoomCode code={roomParams.id}/>
-            <button className="toggle" onClick={toggleTheme}>
-                <svg width="107" height="57" viewBox="0 0 107 57" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect id='rect' x="1" y="1" width="105" height="55" rx="27.5" stroke="#835afd" strokeWidth="2" />
-                  <circle id="circle" cx={svgCxValue} cy="28.5" r="22.5" fill="#835afd" />
-                </svg>
-            </button>
-          </div>
-        </div>
-      </header>
 
+      {windowWidth > 480 ? (
+        <header className='desktop-header'>
+          <div className="content">
+            <img src={theme === 'light' ? logo : whiteLogo} alt="letmeask logo" onClick={() => history.push('/')}/>
+            <div className="button-container">
+              <RoomCode code={roomParams.id}/>
+              <button className="toggle" onClick={toggleTheme}>
+                  <svg width="107" height="57" viewBox="0 0 107 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect id='rect' x="1" y="1" width="105" height="55" rx="27.5" stroke="#835afd" strokeWidth="2" />
+                    <circle id="circle" cx={svgCxValue} cy="28.5" r="22.5" fill="#835afd" />
+                  </svg>
+              </button>
+            </div>
+          </div>
+        </header> 
+      ) : (
+          <MobileHeader>
+            <div>Copiar código da sala</div>
+            <div>Mudar tema</div>
+          </MobileHeader>
+      )}
+          
       <main>
         <div className="room-title">
           <h1>Sala {title}</h1>

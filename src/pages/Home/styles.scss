@@ -132,3 +132,11 @@
     cursor: not-allowed;
   }
 }
+
+@media screen and (max-width: 480px) {
+  .home-container {
+    aside {
+      display: none;
+    }
+  }
+}

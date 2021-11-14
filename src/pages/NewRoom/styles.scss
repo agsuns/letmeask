@@ -96,3 +96,11 @@
     }
   }
 }
+
+@media screen and (max-width: 480px) {
+  .new-room-container {
+    aside {
+      display: none;
+    }
+  }
+}

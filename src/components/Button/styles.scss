@@ -10,6 +10,7 @@
   transition: filter 0.2s;
   padding: 0 32px;
   cursor: pointer;
+  z-index: 1;
 }
 
 .button:not(:disabled):hover {
