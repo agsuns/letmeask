@@ -35,10 +35,8 @@ export const AuthContextProvider = ({children} : AuthContextProviderProps) => {
         if(!displayName || !photoURL) {
           throw new Error("Missing information from Google Account.");
         }
-
-        console.log('right before setUser, loading:', loading)
-        setUser({name: displayName, id: uid, avatar: photoURL});
-        console.log('signIn: ', user);
+        
+        setUser({name: displayName, id: uid, avatar: photoURL});        
       }
       setLoading(prev => false);
     })
@@ -51,20 +49,24 @@ export const AuthContextProvider = ({children} : AuthContextProviderProps) => {
 
   const signInWithGoogle = async () => {
     setLoading(true);
-    const provider = new firebase.auth.GoogleAuthProvider();
-    const result = await auth.signInWithPopup(provider);
-      
-    if (result.user) {
-      const {displayName, photoURL, uid} = result.user;
+    const provider = new firebase.auth.GoogleAuthProvider();  
+     try {
+      const result = await auth.signInWithPopup(provider);
 
-      if(!displayName || !photoURL) {
-        throw new Error("Missing information from Google Account.");
-      }
+      if (result.user) {
+        const {displayName, photoURL, uid} = result.user;
+  
+        if(!displayName || !photoURL) {
+          throw new Error("Missing information from Google Account.");
+        }
+  
+        setUser({name: displayName, id: uid, avatar: photoURL});        
+      }      
 
-      setUser({name: displayName, id: uid, avatar: photoURL});
-      console.log('signIn: ', user);
+     } catch (error){      
+     } finally {
       setLoading(prev => false);
-    }      
+     }    
     };
 
   return (

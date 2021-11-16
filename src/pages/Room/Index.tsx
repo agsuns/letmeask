@@ -40,8 +40,7 @@ export function Room () {
   const [proceed, setProceed] = React.useState<{proceed: (arg: string) => void}>({proceed: (arg: string) => {}});
 
 
-  React.useEffect(() => {
-    console.log(windowWidth);
+  React.useEffect(() => {    
   }, [windowWidth]);
 
   const handleSendQuestion = async (event: React.FormEvent) => {
@@ -94,6 +93,10 @@ export function Room () {
     setSvgCxValue(theme === 'light' ? '30.5' : '75.5');
   }, [theme]);
 
+  const handleCopyToClipboard = () => {
+    navigator.clipboard.writeText(roomId);
+  }
+
   if (useRoomLoading) return <Loader/>
 
   return (
@@ -108,7 +111,7 @@ export function Room () {
       />
       <div className={`room-container ${theme}`}>      
 
-      {windowWidth > 480 ? (
+      {windowWidth > 767 ? (
         <header className='desktop-header'>
           <div className="content">
             <img src={theme === 'light' ? logo : whiteLogo} alt="letmeask logo" onClick={() => history.push('/')}/>
@@ -125,8 +128,11 @@ export function Room () {
         </header> 
       ) : (
           <MobileHeader>
-            <div>Copiar código da sala</div>
-            <div>Mudar tema</div>
+            <div onClick={handleCopyToClipboard}>Copiar código da sala</div>
+            <div className="theme-option" onClick={toggleTheme}>
+              <div>Mudar tema</div>
+              <div id="theme">{theme}</div>
+            </div>
           </MobileHeader>
       )}
           
@@ -159,7 +165,7 @@ export function Room () {
         </form>       
 
         {questions.length === 0 && <NoQuestionsBox></NoQuestionsBox>}
-        {questions.length != 0 && questions.map(question => {          
+        {questions.length != 0 && questions.slice(0).reverse().map(question => {          
           return (
           <QuestionBox question={question} key={question.id }>
             {!question.isAnswered && (             

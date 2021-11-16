@@ -58,8 +58,7 @@ export function Home() {
         }
 
         if (roomValue.authorId === user?.id) history.push(`admin/rooms/${roomCode}`);
-        else {
-            console.log("I'm here");
+        else {            
             history.push(`rooms/${roomCode}`);
         }
     }

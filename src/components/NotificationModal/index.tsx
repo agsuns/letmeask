@@ -14,8 +14,7 @@ type ClosedAtProps = {
 export default function NotificationModal({isOpen, setIsOpen, iconRef, title, text, proceed}: ClosedAtProps) {  
   const { theme } = useTheme();
   
-  const handleClick = () => {
-    console.log('cliquei no botaozinho');
+  const handleClick = () => {    
     if (proceed) proceed("");
     setIsOpen(false);
   }

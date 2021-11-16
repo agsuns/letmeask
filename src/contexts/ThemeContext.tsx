@@ -19,8 +19,7 @@ export const ThemeContext = React.createContext({} as ThemeContextProps);
 export default function ThemeContextProvider({children} : ThemeContextProviderProps) {  
   const [theme, setTheme] = React.useState(Theme.light);
 
-  React.useEffect(() => {
-    console.log("use effect theme context");
+  React.useEffect(() => {    
     const tempTheme = localStorage.getItem('theme');
     switch(tempTheme) {
       case 'light':

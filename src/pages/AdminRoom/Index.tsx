@@ -18,6 +18,8 @@ import useTheme from '../../hooks/useTheme';
 import React from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import Loader from '../../components/Loader';
+import MobileHeader from '../../components/MobileHeader'
+import useWindow from '../../hooks/useWindowWidth';
 
 interface RoomParams {
   id: string,
@@ -31,8 +33,11 @@ export function AdminRoom () {
   const { id: roomId } = useParams<RoomParams>();     
   const { questions, title, authorId, useRoomLoading } = useRoom({roomId});
   const [svgCxValue, setSvgCxValue] = React.useState('30.5');  
+  const windowWidth = useWindow();
   
-
+  const handleCopyToClipboard = () => {
+    navigator.clipboard.writeText(roomId);
+  }
   const handleDeleteQuestion = async (questionId: string) => {
     const result = await isConfirmed(
       "Excluir",
@@ -77,12 +82,13 @@ export function AdminRoom () {
     setSvgCxValue(theme === 'dark' ? '75.5' : '30.5');
     
   }, [theme]);
-
   
+
   if (useRoomLoading) return <Loader/>
   else if (user?.id === authorId) return (
     <div className={`room-container ${theme}`}>
-     <header>
+     {windowWidth > 767 ? (
+       <header className='desktop-header'>
        <div className="content">
          <img src={theme === 'light' ? logo : whiteLogo} alt="lwhite-logogo" onClick={() => history.push('/')}/>
          <div className="button-container">
@@ -97,8 +103,18 @@ export function AdminRoom () {
          </div>
        </div>
      </header>
+     ) : (
+       <MobileHeader>
+        <div onClick={handleCopyToClipboard}>Copiar código da sala</div>
+        <div className="theme-option" onClick={toggleTheme}>
+          <div>Mudar tema</div>
+          <div id="theme">{theme}</div>
+        </div>
+        <div onClick={handleDeleteRoom}>Encerrar sala</div>
+       </MobileHeader>
+     )}
 
-     <main className="main-content">       
+     <main className="main-content">
      
        <div className="room-title">
          <h1>Sala {title}</h1>
@@ -106,7 +122,7 @@ export function AdminRoom () {
        </div>
  
         {questions.length === 0 && <NoQuestionsBox></NoQuestionsBox>}
-        {questions.length != 0 && questions.map((question) => {            
+        {questions.length != 0 && questions.slice(0).reverse().map((question) => {            
           return (
             
             <QuestionBox question={question} key={question.id }>             

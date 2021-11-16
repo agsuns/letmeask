@@ -1,5 +1,6 @@
 import React from 'react'
-import burguerMenu from '../../assets/images/burguer-menu.svg';
+import burgerMenu from '../../assets/images/burger-menu.svg';
+import whiteBurgerMenu from '../../assets/images/white-burger-menu.svg';
 import useTheme from '../../hooks/useTheme';
 import logo from '../../assets/images/logo.svg';
 import whiteLogo from '../../assets/images/white-logo.svg';
@@ -24,7 +25,7 @@ export default function MobileHeader({children}: MobileHeaderProps) {
       <nav>
         <img className='logo' src={theme === 'light' ? logo : whiteLogo} alt="letmeask logo" onClick={() => history.push('/')}/>
         <button onClick={handleBurgerMenu}>
-          <img src={burguerMenu} alt="" />
+          <img src={theme === 'light' ? burgerMenu : whiteBurgerMenu} alt="" />
         </button>
       </nav>
       {showSidenav ? (
@@ -33,7 +34,7 @@ export default function MobileHeader({children}: MobileHeaderProps) {
           <nav>
             <img className='logo' src={theme === 'light' ? logo : whiteLogo} alt="letmeask logo" onClick={() => history.push('/')}/>
             <button onClick={handleBurgerMenu}>
-              <img src={burguerMenu} alt="" />
+              <img src={theme === 'light' ? burgerMenu : whiteBurgerMenu} alt="" />
             </button>
           </nav>
 

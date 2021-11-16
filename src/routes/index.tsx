@@ -10,7 +10,7 @@ import Loader from '../components/Loader';
 
 export default function Routes() {
 
-  const {user} = useAuth();
+  const {user, loading: userLoading} = useAuth();
 
   type RouteType = {
     path: string;
@@ -19,13 +19,14 @@ export default function Routes() {
     children?: any;
   }
   
-  const ProtectedRoute: React.FunctionComponent<RouteType> = ({ ...props }) => {        
+  const ProtectedRoute: React.FunctionComponent<RouteType> = ({ ...props }) => {            
     if (user?.id) {
       return <Route {...props}/>
     }
     else return <Redirect to="/" />;
   };
 
+  if (userLoading) return <Loader/>
   return (
     <> 
       <BrowserRouter>                
@@ -35,7 +36,7 @@ export default function Routes() {
           <Route path='/rooms/:id' component={Room} />
           <ProtectedRoute path="/admin/rooms/:id" component={AdminRoom}/>
         </Switch>
-    </BrowserRouter>      
+      </BrowserRouter>      
     </>
   )
 }
